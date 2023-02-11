@@ -1,15 +1,13 @@
 use yew::prelude::*;
-use yew_router::prelude::use_navigator;
-
-use crate::app::routes::Route;
+use crate::app::hook::use_user_context;
 
 #[function_component(Home)]
 pub fn home() -> Html {
-    let navigator = use_navigator().unwrap();
+    let user_ctx = use_user_context();
 
     let onclick = {
         Callback::from(move |_| {
-            navigator.push(&Route::Login);
+            user_ctx.logout();
         })
     };
     html!{

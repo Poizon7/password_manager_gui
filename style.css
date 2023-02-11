@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 .container {
@@ -17,14 +18,31 @@
   justify-content: center;
 }
 
+html {
+  height: 100vh;
+}
+
+body {
+  height: 100%;
+
+  display: grid;
+  grid-template-rows: 1fr 7fr;
+  grid-template-colums: auto;
+  grid-template-areas: 
+    "header"
+    "main";
+}
+
 header {
   display: flex;
+  grid-area: header;
 
   background-color: #e87006;
-  padding: 5vh;
 }
 
 main {
+  grid-area: main;
+
   display: flex;
   justify-content: center;
   align-items: center;
