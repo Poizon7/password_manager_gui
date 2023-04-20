@@ -15,6 +15,9 @@ yew = { version="0.20.0", features = ["csr"] }
 yew-router = "0.17"
 yew-hooks = "0.2.0"
 reqwest = {version = "0.11.14", features = ["json"]}
+gloo-console = "0.2.3"
+
+spectrum = {path = "../spectrum"}
 
 [workspace]
 members = ["src-tauri"]

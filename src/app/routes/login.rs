@@ -1,20 +1,26 @@
+use crate::app::hook::{use_user_context, UserInfo};
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
-use crate::app::hook::{use_user_context, UserInfo};
-
+use yew_hooks::use_async;
 
 #[function_component(Login)]
 pub fn login() -> Html {
     let user_ctx = use_user_context();
     let user_info = use_state(|| UserInfo::default());
 
-    let onsubmit = {
+    let login = {
         let user_info = user_info.clone();
+        use_async(async move {
+            let info = (*user_info).clone();
+            user_ctx.login(info).await
+        })
+    };
+
+    let onsubmit = {
         Callback::from(move |e: SubmitEvent| {
             e.prevent_default();
 
-            let info = (*user_info).clone();
-            user_ctx.login(info).unwrap();
+            login.run();
         })
     };
 
@@ -28,18 +34,17 @@ pub fn login() -> Html {
         })
     };
 
-    html!{
+    html! {
         <main>
             <form {onsubmit}>
                 <fieldset>
-                    <legend>{"Login"}</legend>
-                    <lable for="pwd">
-                        <span>{"Password: "}</span>
-                        <strong><span aria-label="required">{"*"}</span></strong>
+                    <legend><h2>{"Login"}</h2></legend>
+                    <lable class="outlined" for="password">
+                        <input type="password" id="password" name="password" value={user_info.password.clone()} oninput={oninput} placeholder=" " />
+                        <span>{"Password"}</span>
                     </lable>
-                    <input type="password" id="pwd" name="password" value={user_info.password.clone()} oninput={oninput} />
-                    <button>{"Login"}</button>
                 </fieldset>
+                <button class="filled">{"Login"}</button>
             </form>
         </main>
     }
